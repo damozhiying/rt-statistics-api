@@ -17,7 +17,7 @@ public class StatisticsRepository {
 
     public void add(@NotNull Transaction transaction) {
         final int timeStamp = LocalTime.ofSecondOfDay(transaction
-                .getTimeStamp() / AppConstants.MILLI_SECS_IN_SEC).toSecondOfDay();
+                .getTimestamp() / AppConstants.MILLI_SECS_IN_SEC).toSecondOfDay();
 
         Statistic statistic = statsMap.getOrDefault(timeStamp, new Statistic());
         statistic.setSum(statistic.getSum() + transaction.getAmount());

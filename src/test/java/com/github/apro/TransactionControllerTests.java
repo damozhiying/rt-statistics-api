@@ -1,6 +1,5 @@
 package com.github.apro;
 
-import com.github.apro.config.AppConstants;
 import com.github.apro.transactions.TransactService;
 import com.github.apro.transactions.Transaction;
 import com.github.apro.transactions.TransactionController;
@@ -9,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalTime;
+import java.time.Instant;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
@@ -27,11 +26,10 @@ public class TransactionControllerTests {
     public void test_post_transaction() {
         given()
                 .standaloneSetup(new TransactionController(service))
-                .body(new Transaction(12.3,
-                                LocalTime.now().toNanoOfDay() / 1000)).
-        when()
+                .body(new Transaction(12.3, Instant.now().toEpochMilli())).
+                when()
                 .post("/transactions").
-        then()
+                then()
                 .statusCode(201);
     }
 }

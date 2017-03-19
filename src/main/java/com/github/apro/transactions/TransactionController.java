@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,13 +26,15 @@ public class TransactionController {
 
     private final TransactService service;
 
-    @PostMapping(AppConstants.TRANSACTIONS_PATH)
-    public HttpEntity<Resource<?>> createTransaction(@RequestBody @Valid Transaction transaction,
+    @PostMapping(value = AppConstants.TRANSACTIONS_PATH,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public HttpEntity<Resource<?>> createTransaction(@RequestBody
+                                                     @Valid Transaction transaction,
                                                      BindingResult result)
             throws TransactionCreationException {
         if (!result.hasFieldErrors()) {
             service.save(transaction);
-            Resource<Object> resource = new Resource<>(new Object(),
+            Resource<String> resource = new Resource<>("Transaction created",
                     linkTo(methodOn(StatisticsController.class)
                             .getStats())
                             .withRel(AppConstants.REL_STATISTICS));

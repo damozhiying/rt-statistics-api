@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalTime;
+import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +16,9 @@ public class TransactServiceImpl implements TransactService {
 
     @Override
     public void save(@NotNull Transaction transaction) {
-        if ((LocalTime.now().toSecondOfDay() -
-                (transaction.getTimeStamp() / 1000)) <= AppConstants.SECS_IN_MIN) {
+        if ((Instant.now().toEpochMilli() -
+                transaction.getTimestamp()) / AppConstants.MILLI_SECS_IN_SEC
+                <= AppConstants.SECS_IN_MIN) {
             repository.add(transaction);
         }
     }

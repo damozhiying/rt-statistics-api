@@ -34,7 +34,7 @@ public class TransactionController {
             throws TransactionCreationException {
         if (!result.hasFieldErrors()) {
             service.save(transaction);
-            Resource<String> resource = new Resource<>("Transaction created",
+            Resource<String> resource = new Resource<>("Transaction logged",
                     linkTo(methodOn(StatisticsController.class)
                             .getStats())
                             .withRel(AppConstants.REL_STATISTICS));

@@ -1,17 +1,21 @@
 package com.github.apro.error;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  * Created by achoudh on 19/03/2017.
  */
 
 @Getter
-@RequiredArgsConstructor
 class ApiError {
     private final Error code;
     private final String message;
+
+    public ApiError(Error code, Exception ex) {
+        this.code = code;
+        this.message = ExceptionUtils.getRootCauseMessage(ex);
+    }
 
     @Override
     public String toString() {

@@ -32,7 +32,7 @@ public class TransactionController {
                                                      @Valid Transaction transaction,
                                                      BindingResult result)
             throws TransactionCreationException {
-        if (!result.hasFieldErrors()) {
+        if (!result.hasErrors()) {
             service.save(transaction);
             Resource<String> resource = new Resource<>("Transaction logged",
                     linkTo(methodOn(StatisticsController.class)
@@ -40,7 +40,7 @@ public class TransactionController {
                             .withRel(AppConstants.REL_STATISTICS));
             return new ResponseEntity<>(resource, HttpStatus.CREATED);
         } else {
-            throw new TransactionCreationException(Error.TRANSACTION_ERROR,
+            throw new TransactionCreationException(Error.REQ_BODY_ERROR,
                     "Transaction creation error");
         }
     }

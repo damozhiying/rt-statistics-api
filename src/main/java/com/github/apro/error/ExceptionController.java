@@ -21,11 +21,4 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         log.error(error.toString());
         return error;
     }
-
-    @ExceptionHandler(value = {Throwable.class,})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    ApiError processThrowable(Throwable ex) {
-        log.error(ex.getMessage());
-        return new ApiError(Error.GENERIC_ERROR, ExceptionUtils.getRootCauseMessage(ex));
-    }
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 public class RepoConfig {
 
     @Bean
-    ConcurrentMap<Integer, Statistic> provideRepoMap() {
+    ConcurrentMap<Long, Statistic> provideRepoMap() {
         return new ConcurrentHashMap<>();
     }
 }

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
+import java.time.Instant;
 
 @RequiredArgsConstructor
 @Service
@@ -15,7 +15,7 @@ public class StatisticsRepoService {
 
     @Scheduled(fixedRate = AppConstants.MIN_IN_MILLI_SEC)
     void updateRepo() {
-        int pastMinInSecs = LocalTime.now().minusMinutes(1).toSecondOfDay();
-        repository.remove(pastMinInSecs);
+        long lastEpochMinInSecs = Instant.now().getEpochSecond() - AppConstants.SECS_IN_MIN;
+        repository.remove(lastEpochMinInSecs);
     }
 }

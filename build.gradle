@@ -30,5 +30,5 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile 'io.rest-assured:spring-mock-mvc:3.0.2'
+	testCompile('io.rest-assured:spring-mock-mvc:3.0.2')
 }

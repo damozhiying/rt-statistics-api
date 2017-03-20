@@ -1,6 +1,7 @@
 package com.github.apro.statistics;
 
 import com.github.apro.transactions.Transaction;
+import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
 

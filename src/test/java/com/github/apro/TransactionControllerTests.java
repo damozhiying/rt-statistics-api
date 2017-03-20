@@ -3,6 +3,7 @@ package com.github.apro;
 import com.github.apro.transactions.TransactService;
 import com.github.apro.transactions.Transaction;
 import com.github.apro.transactions.TransactionController;
+import io.restassured.http.ContentType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,9 +24,10 @@ public class TransactionControllerTests {
     private TransactService service;
 
     @Test
-    public void test_post_transaction() {
+    public void whenCreateTransaction_then201() {
         given()
                 .standaloneSetup(new TransactionController(service))
+                .contentType(ContentType.JSON)
                 .body(new Transaction(12.3, Instant.now().toEpochMilli())).
                 when()
                 .post("/transactions").

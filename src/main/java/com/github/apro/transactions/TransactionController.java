@@ -28,8 +28,7 @@ public class TransactionController {
 
     @PostMapping(value = AppConstants.TRANSACTIONS_PATH,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public HttpEntity<Resource<?>> createTransaction(@RequestBody
-                                                     @Valid Transaction transaction,
+    public HttpEntity<Resource<?>> createTransaction(@RequestBody @Valid Transaction transaction,
                                                      BindingResult result)
             throws TransactionCreationException {
         if (!result.hasErrors()) {

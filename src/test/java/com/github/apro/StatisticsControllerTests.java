@@ -1,10 +1,12 @@
 package com.github.apro;
 
+import com.github.apro.config.AppConstants;
 import com.github.apro.statistics.StatisticService;
 import com.github.apro.statistics.StatisticsController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
@@ -15,9 +17,10 @@ import static org.hamcrest.core.IsEqual.equalTo;
  */
 
 @RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {StatisticsApplication.class})
 public class StatisticsControllerTests {
 
-    @MockBean
+    @Autowired
     private StatisticService service;
 
     @Test
@@ -25,10 +28,8 @@ public class StatisticsControllerTests {
         given().
                 standaloneSetup(new StatisticsController(service)).
                 when().
-                async().
-                get("/statistics").
+                async().get(AppConstants.STATISTICS_PATH).
                 then().
-                statusCode(200).
-                content("count", equalTo(0));
+                statusCode(200).content("count", equalTo(0));
     }
 }

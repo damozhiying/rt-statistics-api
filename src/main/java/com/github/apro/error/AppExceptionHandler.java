@@ -13,14 +13,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @Slf4j
 @RestControllerAdvice
-public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
+public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TransactionCreationException.class)
     ResponseEntity<?> handleTransactonException(final TransactionCreationException ex,
                                                 final WebRequest request) {
         log.error(ex.getMessage());
         return handleExceptionInternal(ex, new ApiError(Error.REQ_BODY_ERROR, ex),
-                new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+                new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
     @Override
@@ -30,15 +30,14 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   WebRequest request) {
         return handleExceptionInternal(ex,
                 new ApiError(Error.MALFORMED_REQUEST, ex),
-                headers, HttpStatus.BAD_REQUEST, request);
+                headers, HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex,
-            HttpHeaders headers,
-            HttpStatus status,
-            WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
+                                                                  WebRequest request) {
         return handleExceptionInternal(ex,
                 new ApiError(Error.MALFORMED_REQUEST, ex),
                 headers, HttpStatus.BAD_REQUEST, request);

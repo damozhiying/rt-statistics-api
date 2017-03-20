@@ -12,7 +12,7 @@ class ApiError {
     private final Error code;
     private final String message;
 
-    public ApiError(Error code, Exception ex) {
+    ApiError(Error code, Exception ex) {
         this.code = code;
         this.message = ExceptionUtils.getRootCauseMessage(ex);
     }

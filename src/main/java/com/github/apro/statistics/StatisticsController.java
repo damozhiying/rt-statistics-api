@@ -1,7 +1,6 @@
 package com.github.apro.statistics;
 
 import com.github.apro.config.AppConstants;
-import com.github.apro.error.TransactionCreationException;
 import com.github.apro.transactions.Transaction;
 import com.github.apro.transactions.TransactionController;
 import lombok.RequiredArgsConstructor;
@@ -27,17 +26,11 @@ public class StatisticsController {
     @GetMapping(value = AppConstants.STATISTICS_PATH, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Callable<Resource<Statistic>> getStats() {
-        return () -> {
-            try {
-                return new Resource<>(service.getStats(),
-                        linkTo(methodOn(TransactionController.class).
-                                createTransaction(new Transaction(0.0, 0L)
-                                        , BindingResultUtils
-                                                .getBindingResult(Collections.emptyMap(), "")))
-                                .withRel(AppConstants.REL_TRANSACTIONS));
-            } catch (TransactionCreationException e) {
-                return null;
-            }
-        };
+        return () -> new Resource<>(service.getStats(),
+                linkTo(methodOn(TransactionController.class).
+                        createTransaction(new Transaction(0.0, 0L)
+                                , BindingResultUtils
+                                        .getBindingResult(Collections.emptyMap(), "")))
+                        .withRel(AppConstants.REL_TRANSACTIONS));
     }
 }

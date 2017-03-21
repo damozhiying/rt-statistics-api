@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,9 +29,8 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
-        return handleExceptionInternal(ex,
-                new ApiError(Error.MALFORMED_REQUEST, ex),
-                headers, HttpStatus.UNPROCESSABLE_ENTITY, request);
+        return handleExceptionInternal(ex, new ApiError(Error.MALFORMED_REQUEST, ex),
+                headers, status, request);
     }
 
     @Override
@@ -38,8 +38,16 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
-        return handleExceptionInternal(ex,
-                new ApiError(Error.MALFORMED_REQUEST, ex),
-                headers, HttpStatus.BAD_REQUEST, request);
+        return handleExceptionInternal(ex, new ApiError(Error.MALFORMED_REQUEST, ex),
+                headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
+                                                                         HttpHeaders headers,
+                                                                         HttpStatus status,
+                                                                         WebRequest request) {
+        return handleExceptionInternal(ex, new ApiError(Error.MALFORMED_REQUEST, ex),
+                headers, status, request);
     }
 }
